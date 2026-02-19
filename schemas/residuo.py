@@ -2,6 +2,7 @@ from pydantic import BaseModel, Field
 from datetime import datetime
 from typing import Optional
 from schemas.categoria import CategoriaResponse
+from models.enums import EstadoResiduo
 
 class ResiduoBase(BaseModel):
     categoria_id: int = Field(..., description="ID de la categoría de residuo")

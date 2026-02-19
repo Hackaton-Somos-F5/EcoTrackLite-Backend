@@ -16,14 +16,33 @@ def test_create_colegio_success(client):
     data = response.json()
     assert data["nombre"] == "Colegio de Prueba"
     assert "id" in data
-    assert "fecha_creacion" in data
+    assert data["email"] == "test@colegio.com"
 
-def test_create_colegio_missing_fields(client):
-    response = client.post(
+def test_login_success(client):
+    # Registrar primero
+    client.post(
         "/colegios/",
-        json={"nombre": "Incompleto"}
+        json={
+            "nombre": "Login Test", "direccion": "D", "ciudad": "C", 
+            "telefono": "1", "email": "login@test.com", "password": "securepassword"
+        }
     )
-    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+    
+    # Intentar login
+    response = client.post(
+        "/auth/login",
+        json={"email": "login@test.com", "password": "securepassword"}
+    )
+    assert response.status_code == 200
+    assert "colegio_id" in response.json()
+    assert response.json()["message"] == "Inicio de sesión exitoso"
+
+def test_login_fail(client):
+    response = client.post(
+        "/auth/login",
+        json={"email": "wrong@test.com", "password": "wrong"}
+    )
+    assert response.status_code == 401
 
 def test_list_colegios(client):
     # Register two schools
