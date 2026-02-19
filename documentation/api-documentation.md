@@ -69,7 +69,9 @@ Obtiene el resumen de generación de residuos y comparación con umbrales.
       "colegio_nombre": "Nombre del Colegio",
       "estadisticas": [
         {
-          "tipo": "plastico",
+          "categoria_id": 1,
+          "categoria_nombre": "Azul (Papel y Cartón)",
+          "categoria_color": "Azul",
           "total_kg": 15.5,
           "total_litros": 45.0,
           "umbral_litros": 100.0,
@@ -91,13 +93,13 @@ Registra una nueva entrada de residuos vinculada a un colegio.
 - **Cuerpo de la Petición**:
     ```json
     {
-      "tipo": "plastico",
+      "categoria_id": 1,
       "peso_kg": 10.5,
       "volumen_litros": 30.0,
       "aula": "Aula 101"
     }
     ```
-- **Respuesta Exitosa (201 Created)**: Objeto de residuo creado con `id`, `estado` ("pendiente") y `fecha_registro`.
+- **Respuesta Exitosa (201 Created)**: Objeto de residuo con información anidada de la categoría.
 
 ### Consultar Residuos por Colegio
 Lista los residuos de un colegio con opciones de filtrado.
@@ -105,13 +107,41 @@ Lista los residuos de un colegio con opciones de filtrado.
 - **URL**: `/colegios/{colegio_id}/residuos`
 - **Método**: `GET`
 - **Parámetros de Consulta**:
-    - `tipo` (string, opcional): Filtrar por tipo (`plastico`, `papel`, `vidrio`, `organico`, `electronico`).
+    - `categoria_id` (int, opcional): Filtrar por ID de categoría.
     - `estado` (string, opcional): Filtrar por estado (`pendiente`, `reciclado`).
-- **Respuesta Exitosa (200 OK)**: Lista de objetos de residuo.
+- **Respuesta Exitosa (200 OK)**: Lista de objetos de residuo incluyendo objeto `categoria`.
 
 ---
 
-## 3. Autenticación
+## 3. Categorías
+
+### Listar Categorías
+Obtiene todas las categorías de residuos configuradas en el sistema.
+
+- **URL**: `/categorias/`
+- **Método**: `GET`
+- **Respuesta Exitosa (200 OK)**:
+    ```json
+    [
+      {
+        "id": 1,
+        "nombre": "Azul (Papel y Cartón)",
+        "color": "Azul",
+        "descripcion": "Cartón, papel, periódicos..."
+      }
+    ]
+    ```
+
+### Inicializar Categorías (Seed)
+Puebla la base de datos con las categorías escolares estándar si no existen.
+
+- **URL**: `/categorias/seed`
+- **Método**: `POST`
+- **Respuesta Exitosa (200 OK)**: `{"message": "Categorías inicializadas correctamente"}`
+
+---
+
+## 4. Autenticación
 
 ### Inicio de Sesión
 Permite a un colegio autenticarse mediante su correo y contraseña.
@@ -137,7 +167,7 @@ Permite a un colegio autenticarse mediante su correo y contraseña.
 
 ---
 
-## 4. General
+## 5. General
 
 ### Health Check
 Verifica que el servicio esté activo.
