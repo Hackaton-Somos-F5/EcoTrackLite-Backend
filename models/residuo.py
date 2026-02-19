@@ -9,7 +9,7 @@ class Residuo(Base):
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     colegio_id = Column(Integer, ForeignKey("colegios.id", ondelete="CASCADE"), nullable=False)
-    tipo = Column(SQLEnum(TipoResiduo), nullable=False)
+    categoria_id = Column(Integer, ForeignKey("categorias.id"), nullable=False)
     peso_kg = Column(Float, nullable=False)
     volumen_litros = Column(Float, nullable=False)
     aula = Column(String(50), nullable=False)
@@ -17,6 +17,7 @@ class Residuo(Base):
     fecha_registro = Column(DateTime, server_default=func.now(), nullable=False)
 
     colegio = relationship("Colegio", back_populates="residuos")
+    categoria = relationship("Categoria")
 
     __table_args__ = (
         CheckConstraint("peso_kg > 0", name="check_peso_positivo"),

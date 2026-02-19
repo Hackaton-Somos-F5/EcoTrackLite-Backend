@@ -49,17 +49,29 @@
 
 ---
 
-## Valores Controlados
+---
 
-**Tipo de residuo (residuos y alertas):**
+## 4. Tabla: categorias
 
-- plastico  
-- papel  
-- vidrio  
-- organico  
-- electronico  
+**Nombre de la tabla:** `categorias`
 
-**Estado de residuo (residuos):**
+**Campos:**
 
-- pendiente  
-- reciclado  
+- `id`: INTEGER, PRIMARY KEY, AUTOINCREMENT
+- `nombre`: VARCHAR(100), NOT NULL, UNIQUE (Ej: "Azul (Papel y Cartón)")
+- `color`: VARCHAR(50), NOT NULL (Ej: "Azul" o "#0000FF")
+- `descripcion`: TEXT, NOT NULL
+- `fecha_creacion`: DATETIME, NOT NULL, DEFAULT CURRENT_TIMESTAMP
+
+---
+
+## Valores Controlados Actualizados
+
+**Categorías Estándar (Seed inicial):**
+
+1. **Azul:** Cuadernos, hojas, cajas (Papel y Cartón).
+2. **Amarillo:** Botellas PET, latas, Tetra Pak (Plásticos y Envases).
+3. **Verde:** Frascos y botellas (Vidrio).
+4. **Marrón:** Restos de frutas, jardinería (Orgánicos).
+5. **Gris:** Restos comida cocinada, servilletas sucias (No Aprovechables).
+6. **Rojo:** Pilas, baterías, focos (Peligrosos).

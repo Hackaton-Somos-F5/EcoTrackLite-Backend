@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List, Optional
 from database import get_db
 from schemas.residuo import ResiduoCreate, ResiduoResponse
-from models.enums import TipoResiduo, EstadoResiduo
+from models.enums import EstadoResiduo
 from services import residuo as residuo_service
 
 router = APIRouter(
@@ -18,8 +18,8 @@ def register_residue(colegio_id: int, residuo: ResiduoCreate, db: Session = Depe
 @router.get("/{colegio_id}/residuos", response_model=List[ResiduoResponse])
 def list_residues(
     colegio_id: int,
-    tipo: Optional[TipoResiduo] = Query(None),
+    categoria_id: Optional[int] = Query(None),
     estado: Optional[EstadoResiduo] = Query(None),
     db: Session = Depends(get_db)
 ):
-    return residuo_service.get_residuos_by_colegio(db=db, colegio_id=colegio_id, tipo=tipo, estado=estado)
+    return residuo_service.get_residuos_by_colegio(db=db, colegio_id=colegio_id, categoria_id=categoria_id, estado=estado)
