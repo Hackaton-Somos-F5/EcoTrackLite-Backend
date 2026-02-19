@@ -141,7 +141,51 @@ Puebla la base de datos con las categorías escolares estándar si no existen.
 
 ---
 
-## 4. Autenticación
+## 4. Alertas
+
+### Monitoreo de Alertas
+Obtiene la lista de todas las alertas que están activas actualmente en el sistema (basadas en umbrales de volumen).
+
+- **URL**: `/alertas/`
+- **Método**: `GET`
+- **Respuesta Exitosa (200 OK)**:
+    ```json
+    [
+      {
+        "id": 1,
+        "colegio_id": 1,
+        "categoria_id": 1,
+        "umbral_volumen": 100.0,
+        "activa": true,
+        "fecha_creacion": "2024-02-19T10:00:00Z"
+      }
+    ]
+    ```
+
+---
+
+## 5. Resumen
+
+### Resumen Global de Residuos
+Obtiene un desglose acumulativo del volumen total de residuos recolectados por cada categoría.
+
+- **URL**: `/residuos/resumen`
+- **Método**: `GET`
+- **Respuesta Exitosa (200 OK)**:
+    ```json
+    {
+      "Azul (Papel y Cartón)": 150.5,
+      "Amarillo (Plástico y Latas)": 80.0,
+      "Verde (Vidrio)": 45.0,
+      "Marrón (Orgánico)": 12.0,
+      "Gris (Resto)": 5.0,
+      "Puntos Limpios (Especiales)": 0
+    }
+    ```
+
+---
+
+## 6. Autenticación
 
 ### Inicio de Sesión
 Permite a un colegio autenticarse mediante su correo y contraseña.
@@ -167,7 +211,7 @@ Permite a un colegio autenticarse mediante su correo y contraseña.
 
 ---
 
-## 5. General
+## 7. General
 
 ### Health Check
 Verifica que el servicio esté activo.

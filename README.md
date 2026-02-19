@@ -6,8 +6,10 @@ EcoTrackLite es una solución robusta diseñada para la gestión y seguimiento a
 
 - **Gestión de Colegios**: Registro y consulta de centros educativos.
 - **Autenticación Segura**: Sistema de credenciales (email/password) con hashing mediante Bcrypt.
-- **Control de Residuos**: Registro detallado de entradas (plástico, papel, vidrio, orgánico, electrónico) vinculadas a colegios específicos.
-- **Dashboard de Estadísticas**: Cálculo automático de totales y porcentaje de ocupación basado en umbrales de alerta.
+- **Control de Residuos**: Registro detallado de entradas vinculadas a categorías escolares (Azul, Amarillo, Verde, Marrón, Gris, Rojo).
+- **Resumen Global**: Endpoint dedicado para obtener los totales acumulados por tipo de residuo.
+- **Alertas en Tiempo Real**: Sistema de monitoreo de umbrales con alertas activas dinámicas.
+- **Dashboard de Estadísticas**: Cálculo automático de porcentaje de ocupación por colegio.
 - **Validación Estricta**: Control de datos mediante Pydantic y restricciones en la base de datos.
 - **Pruebas Automatizadas**: Suite completa de tests de integración para garantizar la estabilidad.
 
