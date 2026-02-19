@@ -66,15 +66,16 @@ def get_school_stats(db: Session, colegio_id: int):
         Categoria.icon.label("categoria_icon"),
         Categoria.color.label("categoria_color"),
         Categoria.bg.label("categoria_bg"),
+        Categoria.umbral.label("categoria_umbral"),
         func.sum(Residuo.peso_kg).label("total_kg"),
         func.sum(Residuo.volumen_litros).label("total_litros")
     ).join(Categoria, Residuo.categoria_id == Categoria.id)\
      .filter(
         Residuo.colegio_id == colegio_id,
         Residuo.estado == "pendiente"
-    ).group_by(Residuo.categoria_id, Categoria.code, Categoria.label, Categoria.icon, Categoria.color, Categoria.bg).all()
+    ).group_by(Residuo.categoria_id, Categoria.code, Categoria.label, Categoria.icon, Categoria.color, Categoria.bg, Categoria.umbral).all()
     
-    # Get thresholds from alerts table
+    # Get thresholds from alerts table (school specific override)
     thresholds = db.query(Alerta).filter(Alerta.colegio_id == colegio_id).all()
     thresholds_dict = {t.categoria_id: t.umbral_volumen for t in thresholds}
     
@@ -83,7 +84,8 @@ def get_school_stats(db: Session, colegio_id: int):
     
     for row in stats_query:
         cat_id = row.categoria_id
-        umbral = thresholds_dict.get(cat_id, 0.0)
+        # Fallback recursive: School Alert -> Category Default Threshold
+        umbral = thresholds_dict.get(cat_id, row.categoria_umbral)
         porcentaje = (row.total_litros / umbral * 100) if umbral > 0 else 0.0
         
         estadisticas.append({

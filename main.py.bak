@@ -45,6 +45,8 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
         content={"detail": detail},
     )
 
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
     # En desarrollo podríamos querer ver el error real, pero según US-005:
     return JSONResponse(
         status_code=500,

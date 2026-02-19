@@ -7,7 +7,7 @@ def test_school_stats_calculation(seeded_db):
     }).json()
     school_id = school["id"]
     
-    # Register residues: 2 for Category 1 (Azul), 1 for Category 2 (Amarillo)
+    # Register residues: 2 for Category 1 (ORGANIC), 1 for Category 2 (PLASTIC)
     client.post(f"/colegios/{school_id}/residuos", json={"categoria_id": 1, "peso_kg": 5.0, "volumen_litros": 10.0, "aula": "A1"})
     client.post(f"/colegios/{school_id}/residuos", json={"categoria_id": 1, "peso_kg": 3.0, "volumen_litros": 6.0, "aula": "A2"})
     client.post(f"/colegios/{school_id}/residuos", json={"categoria_id": 2, "peso_kg": 2.0, "volumen_litros": 4.0, "aula": "A3"})
@@ -17,12 +17,14 @@ def test_school_stats_calculation(seeded_db):
     assert response.status_code == 200
     data = response.json()
     
-    # Check Azul (Cat 1)
-    azul_stat = next(s for s in data["estadisticas"] if s["categoria_id"] == 1)
-    assert azul_stat["total_kg"] == 8.0 # 5 + 3
-    assert azul_stat["total_litros"] == 16.0 # 10 + 6
+    # Check ORGANIC (Cat 1)
+    organic_stat = next(s for s in data["estadisticas"] if s["categoria_id"] == 1)
+    assert organic_stat["total_kg"] == 8.0 # 5 + 3
+    assert organic_stat["total_litros"] == 16.0 # 10 + 6
+    assert organic_stat["categoria_code"] == "ORGANIC"
     
-    # Check Amarillo (Cat 2)
-    amarillo_stat = next(s for s in data["estadisticas"] if s["categoria_id"] == 2)
-    assert amarillo_stat["total_kg"] == 2.0
-    assert amarillo_stat["total_litros"] == 4.0
+    # Check PLASTIC (Cat 2)
+    plastic_stat = next(s for s in data["estadisticas"] if s["categoria_id"] == 2)
+    assert plastic_stat["total_kg"] == 2.0
+    assert plastic_stat["total_litros"] == 4.0
+    assert plastic_stat["categoria_code"] == "PLASTIC"

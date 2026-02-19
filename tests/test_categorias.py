@@ -13,16 +13,27 @@ def test_create_categoria_manual(client):
     response = client.post(
         "/categorias/",
         json={
-            "nombre": "Prueba",
-            "color": "Blanco",
-            "descripcion": "D1"
+            "code": "TEST",
+            "label": "Prueba",
+            "umbral": 100,
+            "icon": "🧪",
+            "color": "#000000",
+            "bg": "#ffffff"
         }
     )
     assert response.status_code == status.HTTP_201_CREATED
-    assert response.json()["nombre"] == "Prueba"
+    assert response.json()["code"] == "TEST"
 
 def test_duplicate_categoria_error(client):
-    client.post("/categorias/", json={"nombre": "Unica", "color": "C", "descripcion": "D"})
-    response = client.post("/categorias/", json={"nombre": "Unica", "color": "Other", "descripcion": "D"})
+    payload = {
+        "code": "UNIQUE",
+        "label": "U",
+        "umbral": 100,
+        "icon": "U",
+        "color": "C",
+        "bg": "B"
+    }
+    client.post("/categorias/", json=payload)
+    response = client.post("/categorias/", json=payload)
     assert response.status_code == 400
     assert "Ya existe" in response.json()["detail"]

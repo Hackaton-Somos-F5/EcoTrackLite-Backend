@@ -25,7 +25,7 @@
 
 - `id`: INTEGER, PRIMARY KEY, AUTOINCREMENT  
 - `colegio_id`: INTEGER, NOT NULL, FOREIGN KEY → `colegios(id)`, ON DELETE CASCADE  
-- `tipo`: VARCHAR(50), NOT NULL  
+- `categoria_id`: INTEGER, NOT NULL, FOREIGN KEY → `categorias(id)`
 - `peso_kg`: FLOAT, NOT NULL  
 - `volumen_litros`: FLOAT, NOT NULL  
 - `aula`: VARCHAR(50), NOT NULL  
@@ -42,12 +42,10 @@
 
 - `id`: INTEGER, PRIMARY KEY, AUTOINCREMENT  
 - `colegio_id`: INTEGER, NOT NULL, FOREIGN KEY → `colegios(id)`, ON DELETE CASCADE  
-- `tipo_residuo`: VARCHAR(50), NOT NULL  
+- `categoria_id`: INTEGER, NOT NULL, FOREIGN KEY → `categorias(id)`
 - `umbral_volumen`: FLOAT, NOT NULL  
 - `activa`: BOOLEAN, NOT NULL, DEFAULT FALSE  
 - `fecha_creacion`: DATETIME, NOT NULL, DEFAULT CURRENT_TIMESTAMP  
-
----
 
 ---
 
@@ -58,9 +56,12 @@
 **Campos:**
 
 - `id`: INTEGER, PRIMARY KEY, AUTOINCREMENT
-- `nombre`: VARCHAR(100), NOT NULL, UNIQUE (Ej: "Azul (Papel y Cartón)")
-- `color`: VARCHAR(50), NOT NULL (Ej: "Azul" o "#0000FF")
-- `descripcion`: TEXT, NOT NULL
+- `code`: VARCHAR(50), NOT NULL, UNIQUE (Ej: "ORGANIC")
+- `label`: VARCHAR(100), NOT NULL
+- `umbral`: INTEGER, NOT NULL (Default: 100)
+- `icon`: VARCHAR(50), NOT NULL
+- `color`: VARCHAR(50), NOT NULL
+- `bg`: VARCHAR(50), NOT NULL
 - `fecha_creacion`: DATETIME, NOT NULL, DEFAULT CURRENT_TIMESTAMP
 
 ---
@@ -69,9 +70,9 @@
 
 **Categorías Estándar (Seed inicial):**
 
-1. **Azul:** Cuadernos, hojas, cajas (Papel y Cartón).
-2. **Amarillo:** Botellas PET, latas, Tetra Pak (Plásticos y Envases).
-3. **Verde:** Frascos y botellas (Vidrio).
-4. **Marrón:** Restos de frutas, jardinería (Orgánicos).
-5. **Gris:** Restos comida cocinada, servilletas sucias (No Aprovechables).
-6. **Rojo:** Pilas, baterías, focos (Peligrosos).
+1. **ORGANIC (Orgánico):** 🥬 / #f59e0b
+2. **PLASTIC (Plástico):** ♻️ / #2ecc71
+3. **PAPER (Papel):** 📄 / #3b82f6
+4. **GLASS (Vidrio):** 🪟 / #06b6d4
+5. **WASTE (Residuos):** 🗑️ / #8b5cf6
+6. **HAZARD (Peligroso):** ⚠️ / #ef4444
