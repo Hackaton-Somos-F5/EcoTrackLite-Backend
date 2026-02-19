@@ -70,8 +70,11 @@ Obtiene el resumen de generación de residuos y comparación con umbrales.
       "estadisticas": [
         {
           "categoria_id": 1,
-          "categoria_nombre": "Azul (Papel y Cartón)",
-          "categoria_color": "Azul",
+          "categoria_code": "PAPER",
+          "categoria_label": "Papel",
+          "categoria_icon": "📄",
+          "categoria_color": "#3b82f6",
+          "categoria_bg": "#dbeafe",
           "total_kg": 15.5,
           "total_litros": 45.0,
           "umbral_litros": 100.0,
@@ -125,9 +128,12 @@ Obtiene todas las categorías de residuos configuradas en el sistema.
     [
       {
         "id": 1,
-        "nombre": "Azul (Papel y Cartón)",
-        "color": "Azul",
-        "descripcion": "Cartón, papel, periódicos..."
+        "code": "PAPER",
+        "label": "Papel",
+        "umbral": 100,
+        "icon": "📄",
+        "color": "#3b82f6",
+        "bg": "#dbeafe"
       }
     ]
     ```
@@ -167,19 +173,19 @@ Obtiene la lista de todas las alertas que están activas actualmente en el siste
 ## 5. Resumen
 
 ### Resumen Global de Residuos
-Obtiene un desglose acumulativo del volumen total de residuos recolectados por cada categoría.
+Obtiene un desglose acumulativo del volumen total de residuos recolectados por cada categoría (basado en labels actuales).
 
 - **URL**: `/residuos/resumen`
 - **Método**: `GET`
 - **Respuesta Exitosa (200 OK)**:
     ```json
     {
-      "Azul (Papel y Cartón)": 150.5,
-      "Amarillo (Plástico y Latas)": 80.0,
-      "Verde (Vidrio)": 45.0,
-      "Marrón (Orgánico)": 12.0,
-      "Gris (Resto)": 5.0,
-      "Puntos Limpios (Especiales)": 0
+      "Orgánico": 150.5,
+      "Plástico": 80.0,
+      "Papel": 45.0,
+      "Vidrio": 45.0,
+      "Residuos": 5.0,
+      "Peligroso": 0
     }
     ```
 

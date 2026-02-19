@@ -16,14 +16,14 @@ def test_filter_residuos_by_categoria_success(seeded_db):
     client.post(f"/colegios/{school_id}/residuos", json={"categoria_id": 1, "peso_kg": 2.0, "volumen_litros": 4.0, "aula": "A2"})
     client.post(f"/colegios/{school_id}/residuos", json={"categoria_id": 2, "peso_kg": 3.0, "volumen_litros": 6.0, "aula": "A3"})
     
-    # Filter by Cat 1 (Azul)
+    # Filter by Cat 1 (Orgánico)
     response = client.get(f"/colegios/{school_id}/residuos?categoria_id=1")
     assert response.status_code == 200
     data = response.json()
     assert len(data) == 2
     for r in data:
         assert r["categoria_id"] == 1
-        assert r["categoria"]["nombre"] == "Azul (Papel y Cartón)"
+        assert r["categoria"]["label"] == "Orgánico"
 
     # Filter by Cat 2 (Amarillo)
     response = client.get(f"/colegios/{school_id}/residuos?categoria_id=2")

@@ -20,7 +20,7 @@ def test_register_residue_success(seeded_db):
     assert response.status_code == status.HTTP_201_CREATED
     data = response.json()
     assert data["categoria_id"] == 1
-    assert data["categoria"]["nombre"] == "Azul (Papel y Cartón)"
+    assert data["categoria"]["label"] == "Orgánico"
     assert data["colegio_id"] == school_id
 
 def test_register_residue_invalid_category(seeded_db):
@@ -89,4 +89,4 @@ def test_filter_residues_by_categoria(seeded_db):
     resp = client.get(f"/colegios/{s1}/residuos?categoria_id=1")
     assert len(resp.json()) == 1
     assert resp.json()[0]["categoria_id"] == 1
-    assert resp.json()[0]["categoria"]["nombre"] == "Azul (Papel y Cartón)"
+    assert resp.json()[0]["categoria"]["label"] == "Orgánico"

@@ -9,23 +9,17 @@ router = APIRouter()
 
 @router.get("/residuos/resumen")
 def obtener_resumen(db: Session = Depends(get_db)):
-    # Unimos con Categoria para obtener el nombre
-    resultados = db.query(Categoria.nombre, func.sum(Residuo.volumen_litros))\
+    # Obtener todas las categorías para inicializar el diccionario
+    categorias = db.query(Categoria).all()
+    resumen = {cat.label: 0 for cat in categorias}
+
+    # Consultar totales por categoría usando el label
+    resultados = db.query(Categoria.label, func.sum(Residuo.volumen_litros))\
                    .join(Residuo, Categoria.id == Residuo.categoria_id)\
-                   .group_by(Categoria.nombre).all()
+                   .group_by(Categoria.label).all()
 
-    # Inicializamos todas las categorías conocidas con 0
-    resumen = {
-        "Azul (Papel y Cartón)": 0,
-        "Amarillo (Envases y Plásticos)": 0,
-        "Verde (Vidrio)": 0,
-        "Marrón (Orgánicos)": 0,
-        "Gris (No Aprovechables)": 0,
-        "Rojo (Peligrosos)": 0,
-    }
-
-    for nombre, total in resultados:
-        if nombre in resumen:
-            resumen[nombre] = total or 0
+    for label, total in resultados:
+        if label in resumen:
+            resumen[label] = total or 0
 
     return resumen

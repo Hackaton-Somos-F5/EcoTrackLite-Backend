@@ -19,11 +19,11 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(title="EcoTrackLite API")
 
 # Configuración de CORS desde .env
-cors_origins_str = os.getenv("CORS_ORIGINS", '["http://localhost:5173", "http://localhost:5175"]')
+cors_origins_str = os.getenv("CORS_ORIGINS", '["http://localhost:5173"]')
 try:
     allow_origins = json.loads(cors_origins_str)
 except Exception:
-    allow_origins = ["http://localhost:5173", "http://localhost:5175"]
+    allow_origins = ["http://localhost:5173"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -45,6 +45,8 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
         content={"detail": detail},
     )
 
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
     # En desarrollo podríamos querer ver el error real, pero según US-005:
     return JSONResponse(
         status_code=500,

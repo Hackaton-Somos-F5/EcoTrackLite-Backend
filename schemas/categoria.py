@@ -3,9 +3,12 @@ from datetime import datetime
 from typing import Optional
 
 class CategoriaBase(BaseModel):
-    nombre: str = Field(..., max_length=100, description="Nombre de la categoría escolar")
-    color: str = Field(..., max_length=50, description="Color asociado (Nombre o Hex)")
-    descripcion: str = Field(..., description="Descripción de qué residuos van en esta categoría")
+    code: str = Field(..., max_length=50, description="Código identificador (ej: ORGANIC)")
+    label: str = Field(..., max_length=100, description="Nombre legible para el usuario")
+    umbral: int = Field(100, description="Umbral de volumen para alertas")
+    icon: str = Field(..., max_length=50, description="Icono/Emoji representativo")
+    color: str = Field(..., max_length=50, description="Color de acento (Hex)")
+    bg: str = Field(..., max_length=50, description="Color de fondo (Hex)")
 
 class CategoriaCreate(CategoriaBase):
     pass

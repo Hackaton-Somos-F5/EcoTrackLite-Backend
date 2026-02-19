@@ -31,13 +31,13 @@ def run_seed():
             db.add(db_colegio)
             db.flush() # Para obtener el ID
         
-        # 4. Insertar un Residuo de prueba (Asociado al colegio y categoría 1 - Azul)
+        # 4. Insertar un Residuo de prueba (Asociado al colegio y categoría PAPER)
         print("- Registrando un residuo de prueba...")
-        categoria_azul = db.query(Categoria).filter(Categoria.nombre.contains("Azul")).first()
-        if db_colegio and categoria_azul:
+        categoria_paper = db.query(Categoria).filter(Categoria.code == "PAPER").first()
+        if db_colegio and categoria_paper:
             db_residuo = Residuo(
                 colegio_id=db_colegio.id,
-                categoria_id=categoria_azul.id,
+                categoria_id=categoria_paper.id,
                 peso_kg=15.5,
                 volumen_litros=30.0,
                 aula="Clase 4ºB",
@@ -47,15 +47,15 @@ def run_seed():
 
         # 5. Insertar una Alerta de prueba
         print("- Configurando una alerta de prueba...")
-        if db_colegio and categoria_azul:
+        if db_colegio and categoria_paper:
             db_alerta = db.query(Alerta).filter(
                 Alerta.colegio_id == db_colegio.id, 
-                Alerta.categoria_id == categoria_azul.id
+                Alerta.categoria_id == categoria_paper.id
             ).first()
             if not db_alerta:
                 db_alerta = Alerta(
                     colegio_id=db_colegio.id,
-                    categoria_id=categoria_azul.id,
+                    categoria_id=categoria_paper.id,
                     umbral_volumen=100.0,
                     activa=True
                 )
