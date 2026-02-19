@@ -37,7 +37,8 @@ app.add_middleware(
 @app.exception_handler(StarletteHTTPException)
 async def http_exception_handler(request: Request, exc: StarletteHTTPException):
     detail = exc.detail
-    if exc.status_code == 404:
+    # Solo sobrescribimos si es el mensaje por defecto de FastAPI/Starlette
+    if exc.status_code == 404 and detail == "Not Found":
         detail = "Recurso no encontrado"
     return JSONResponse(
         status_code=exc.status_code,
