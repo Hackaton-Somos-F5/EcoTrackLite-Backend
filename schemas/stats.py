@@ -1,9 +1,9 @@
 from pydantic import BaseModel
 from typing import List
-from models.enums import TipoResiduo
-
 class ResidueTypeStat(BaseModel):
-    tipo: TipoResiduo
+    categoria_id: int
+    categoria_nombre: str
+    categoria_color: str
     total_kg: float
     total_litros: float
     umbral_litros: float
