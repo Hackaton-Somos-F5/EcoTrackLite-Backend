@@ -1,18 +1,18 @@
 from fastapi import status
 
-def test_get_resumen_empty(client):
+def test_get_resumen_empty(seeded_db):
+    client = seeded_db
     response = client.get("/residuos/resumen")
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
-    assert data["plastico"] == 0
-    assert data["papel"] == 0
-    assert data["organico"] == 0
-    assert data["vidrio"] == 0
-    assert data["electronico"] == 0
-    assert data["peligroso"] == 0
+    assert data["Amarillo (Plástico y Latas)"] == 0
+    assert data["Azul (Papel y Cartón)"] == 0
+    assert data["Marrón (Orgánico)"] == 0
+    assert data["Verde (Vidrio)"] == 0
 
-def test_get_resumen_with_data(client):
-    # Create a school
+def test_get_resumen_with_data(seeded_db):
+    client = seeded_db
+    # Crear un colegio
     resp_school = client.post("/colegios/", json={
         "nombre": "Colegio Test",
         "direccion": "Dir",
@@ -24,21 +24,23 @@ def test_get_resumen_with_data(client):
     assert resp_school.status_code == status.HTTP_201_CREATED
     school_id = resp_school.json()["id"]
 
-    # Add some residues
+    # Añadir algunos residuos
+    # Categoría 2: Amarillo (Plástico y Latas)
     client.post(f"/colegios/{school_id}/residuos", json={
-        "tipo": "plastico", "peso_kg": 10.0, "volumen_litros": 50.0, "aula": "1A"
+        "categoria_id": 2, "peso_kg": 10.0, "volumen_litros": 50.0, "aula": "1A"
     })
     client.post(f"/colegios/{school_id}/residuos", json={
-        "tipo": "plastico", "peso_kg": 5.0, "volumen_litros": 20.0, "aula": "1B"
+        "categoria_id": 2, "peso_kg": 5.0, "volumen_litros": 20.0, "aula": "1B"
     })
+    # Categoría 1: Azul (Papel y Cartón)
     client.post(f"/colegios/{school_id}/residuos", json={
-        "tipo": "papel", "peso_kg": 2.0, "volumen_litros": 10.0, "aula": "2A"
+        "categoria_id": 1, "peso_kg": 2.0, "volumen_litros": 10.0, "aula": "2A"
     })
 
     response = client.get("/residuos/resumen")
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
     
-    assert data["plastico"] == 70.0  # 50.0 + 20.0
-    assert data["papel"] == 10.0
-    assert data["organico"] == 0
+    assert data["Amarillo (Plástico y Latas)"] == 70.0  # 50.0 + 20.0
+    assert data["Azul (Papel y Cartón)"] == 10.0
+    assert data["Marrón (Orgánico)"] == 0
