@@ -4,6 +4,7 @@ from models.residuo import Residuo
 from models.colegio import Colegio
 from models.alerta import Alerta
 from schemas.residuo import ResiduoCreate
+from services.alertas import calcular_alertas
 from fastapi import HTTPException
 
 from models.categoria import Categoria
@@ -30,6 +31,10 @@ def create_residuo(db: Session, colegio_id: int, residuo: ResiduoCreate):
     db.add(db_residuo)
     db.commit()
     db.refresh(db_residuo)
+    
+    # Calcular alertas tras el registro
+    db_residuo.alertas = calcular_alertas(db)
+    
     return db_residuo
 
 def get_residuos_by_colegio(db: Session, colegio_id: int, categoria_id: int = None, estado: str = None):
