@@ -20,7 +20,10 @@
 ## 7. Ejecución
 `source venv/bin/activate && uvicorn main:app --reload`
 
-## 8. Comprobación
-`curl http://127.0.0.1:8000/`
+## 9. Solucionar Error 500 (Inconsistencia de Datos o Cache)
+Si experimentas un `Internal Server Error` tras cambios de esquema:
 
-## pruebas
+1. **Detener el servidor**: `Ctrl+C` en la terminal.
+2. **Borrar base de datos**: `rm residuos.db`
+3. **Re-ejecutar Seed**: `./venv/bin/python3 seed.py`
+4. **Reiniciar Servidor**: `./venv/bin/python3 -m uvicorn main:app --reload`
