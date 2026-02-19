@@ -7,6 +7,7 @@ from routes import residuo as residuo_routes
 from routes import auth as auth_routes
 from routes import resumen
 from routes import categoria as categoria_routes
+from routes import alertas as alertas_routes
 
 # Crear tablas en la base de datos
 Base.metadata.create_all(bind=engine)
@@ -27,6 +28,7 @@ app.include_router(residuo_routes.router)
 app.include_router(auth_routes.router)
 app.include_router(resumen.router)
 app.include_router(categoria_routes.router)
+app.include_router(alertas_routes.router)
 
 @app.get("/")
 async def health_check():
