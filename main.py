@@ -19,11 +19,11 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(title="EcoTrackLite API")
 
 # Configuración de CORS desde .env
-cors_origins_str = os.getenv("CORS_ORIGINS", '["http://localhost:5173"]')
+cors_origins_str = os.getenv("CORS_ORIGINS", '["http://localhost:5173", "http://localhost:5175"]')
 try:
     allow_origins = json.loads(cors_origins_str)
 except Exception:
-    allow_origins = ["http://localhost:5173"]
+    allow_origins = ["http://localhost:5173", "http://localhost:5175"]
 
 app.add_middleware(
     CORSMiddleware,
