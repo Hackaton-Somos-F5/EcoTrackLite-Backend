@@ -5,9 +5,9 @@ def test_get_resumen_empty(seeded_db):
     response = client.get("/residuos/resumen")
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
-    assert data["Amarillo (Plástico y Latas)"] == 0
+    assert data["Amarillo (Envases y Plásticos)"] == 0
     assert data["Azul (Papel y Cartón)"] == 0
-    assert data["Marrón (Orgánico)"] == 0
+    assert data["Marrón (Orgánicos)"] == 0
     assert data["Verde (Vidrio)"] == 0
 
 def test_get_resumen_with_data(seeded_db):
@@ -25,7 +25,7 @@ def test_get_resumen_with_data(seeded_db):
     school_id = resp_school.json()["id"]
 
     # Añadir algunos residuos
-    # Categoría 2: Amarillo (Plástico y Latas)
+    # Categoría 2: Amarillo (Envases y Plásticos)
     client.post(f"/colegios/{school_id}/residuos", json={
         "categoria_id": 2, "peso_kg": 10.0, "volumen_litros": 50.0, "aula": "1A"
     })
@@ -41,6 +41,6 @@ def test_get_resumen_with_data(seeded_db):
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
     
-    assert data["Amarillo (Plástico y Latas)"] == 70.0  # 50.0 + 20.0
+    assert data["Amarillo (Envases y Plásticos)"] == 70.0  # 50.0 + 20.0
     assert data["Azul (Papel y Cartón)"] == 10.0
-    assert data["Marrón (Orgánico)"] == 0
+    assert data["Marrón (Orgánicos)"] == 0

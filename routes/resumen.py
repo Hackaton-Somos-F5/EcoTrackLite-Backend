@@ -17,11 +17,11 @@ def obtener_resumen(db: Session = Depends(get_db)):
     # Inicializamos todas las categorías conocidas con 0
     resumen = {
         "Azul (Papel y Cartón)": 0,
-        "Amarillo (Plástico y Latas)": 0,
+        "Amarillo (Envases y Plásticos)": 0,
         "Verde (Vidrio)": 0,
-        "Marrón (Orgánico)": 0,
-        "Gris (Resto)": 0,
-        "Puntos Limpios (Especiales)": 0,
+        "Marrón (Orgánicos)": 0,
+        "Gris (No Aprovechables)": 0,
+        "Rojo (Peligrosos)": 0,
     }
 
     for nombre, total in resultados:
