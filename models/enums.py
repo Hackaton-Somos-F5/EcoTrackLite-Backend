@@ -6,6 +6,7 @@ class TipoResiduo(str, enum.Enum):
     vidrio = "vidrio"
     organico = "organico"
     electronico = "electronico"
+    peligroso = "peligroso"
 
 class EstadoResiduo(str, enum.Enum):
     pendiente = "pendiente"

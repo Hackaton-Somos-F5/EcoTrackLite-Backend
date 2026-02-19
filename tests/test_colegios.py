@@ -52,3 +52,16 @@ def test_list_colegios(client):
     response = client.get("/colegios/")
     assert response.status_code == 200
     assert len(response.json()) == 2
+
+def test_get_school_by_id_success(client):
+    post_resp = client.post("/colegios/", json={"nombre": "C1", "direccion": "D1", "ciudad": "C1", "telefono": "1", "email": "c1@test.com", "password": "password123"})
+    school_id = post_resp.json()["id"]
+    
+    response = client.get(f"/colegios/{school_id}")
+    assert response.status_code == 200
+    assert response.json()["nombre"] == "C1"
+
+def test_get_school_by_id_not_found(client):
+    response = client.get("/colegios/999")
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Colegio no encontrado"

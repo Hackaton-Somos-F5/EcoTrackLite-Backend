@@ -1,7 +1,8 @@
 from pydantic import BaseModel, Field
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 from schemas.categoria import CategoriaResponse
+from schemas.alerta import AlertaResponse
 from models.enums import EstadoResiduo
 
 class ResiduoBase(BaseModel):
@@ -19,6 +20,7 @@ class ResiduoResponse(ResiduoBase):
     estado: EstadoResiduo
     fecha_registro: datetime
     categoria: Optional[CategoriaResponse] = None
+    alertas: List[AlertaResponse] = []
 
     model_config = {
         "from_attributes": True
