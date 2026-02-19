@@ -37,3 +37,9 @@ def client(db):
     with TestClient(app) as c:
         yield c
     app.dependency_overrides.clear()
+
+@pytest.fixture(scope="function")
+def seeded_db(client):
+    """Fixture que asegura que las categorías estándar están cargadas."""
+    client.post("/categorias/seed")
+    return client
