@@ -1,6 +1,6 @@
-# EcoTrackLite Backend
+# Eco ColeBackend
 
-EcoTrackLite es una solución robusta diseñada para la gestión y seguimiento automatizado de residuos en centros educativos. Esta API permite monitorear el peso, volumen y estado de los materiales reciclables, proporcionando herramientas de análisis para optimizar la logística de reciclaje.
+Eco Cole es una solución robusta diseñada para la gestión y seguimiento automatizado de residuos en centros educativos. Esta API permite monitorear el peso, volumen y estado de los materiales reciclables, proporcionando herramientas de análisis para optimizar la logística de reciclaje.
 
 ## 🚀 Características Principales
 
@@ -43,7 +43,7 @@ EcoTrackLite es una solución robusta diseñada para la gestión y seguimiento a
 1. **Clonar el repositorio:**
    ```bash
    git clone <url-del-repositorio>
-   cd EcoTrackLite-Backend
+   cd Eco Cole-Backend
    ```
 
 2. **Entorno Virtual:**
