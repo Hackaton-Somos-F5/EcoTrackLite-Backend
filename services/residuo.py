@@ -61,15 +61,18 @@ def get_school_stats(db: Session, colegio_id: int):
     # Get aggregated sums for "pendiente" residues grouped by category
     stats_query = db.query(
         Residuo.categoria_id,
-        Categoria.nombre.label("categoria_nombre"),
+        Categoria.code.label("categoria_code"),
+        Categoria.label.label("categoria_label"),
+        Categoria.icon.label("categoria_icon"),
         Categoria.color.label("categoria_color"),
+        Categoria.bg.label("categoria_bg"),
         func.sum(Residuo.peso_kg).label("total_kg"),
         func.sum(Residuo.volumen_litros).label("total_litros")
     ).join(Categoria, Residuo.categoria_id == Categoria.id)\
      .filter(
         Residuo.colegio_id == colegio_id,
         Residuo.estado == "pendiente"
-    ).group_by(Residuo.categoria_id, Categoria.nombre, Categoria.color).all()
+    ).group_by(Residuo.categoria_id, Categoria.code, Categoria.label, Categoria.icon, Categoria.color, Categoria.bg).all()
     
     # Get thresholds from alerts table
     thresholds = db.query(Alerta).filter(Alerta.colegio_id == colegio_id).all()
@@ -85,8 +88,11 @@ def get_school_stats(db: Session, colegio_id: int):
         
         estadisticas.append({
             "categoria_id": cat_id,
-            "categoria_nombre": row.categoria_nombre,
+            "categoria_code": row.categoria_code,
+            "categoria_label": row.categoria_label,
+            "categoria_icon": row.categoria_icon,
             "categoria_color": row.categoria_color,
+            "categoria_bg": row.categoria_bg,
             "total_kg": float(row.total_kg),
             "total_litros": float(row.total_litros),
             "umbral_litros": float(umbral),
