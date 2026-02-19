@@ -4,7 +4,7 @@ from models.enums import TipoResiduo
 def test_register_residue_success(client):
     # Prepare: create a school first
     resp_school = client.post("/colegios/", json={
-        "nombre": "Colegio A", "direccion": "D1", "ciudad": "C1", "telefono": "1"
+        "nombre": "Colegio A", "direccion": "D1", "ciudad": "C1", "telefono": "1", "email": "a@test.com", "password": "password123"
     })
     school_id = resp_school.json()["id"]
 
@@ -38,7 +38,7 @@ def test_register_residue_invalid_school(client):
 
 def test_register_residue_negative_values(client):
     resp_school = client.post("/colegios/", json={
-        "nombre": "C", "direccion": "D", "ciudad": "C", "telefono": "T"
+        "nombre": "C", "direccion": "D", "ciudad": "C", "telefono": "T", "email": "c@test.com", "password": "password123"
     })
     school_id = resp_school.json()["id"]
     
@@ -55,8 +55,8 @@ def test_register_residue_negative_values(client):
 
 def test_list_residues_by_school(client):
     # Create two schools
-    s1 = client.post("/colegios/", json={"nombre": "S1", "direccion": "D", "ciudad": "C", "telefono": "1"}).json()["id"]
-    s2 = client.post("/colegios/", json={"nombre": "S2", "direccion": "D", "ciudad": "C", "telefono": "2"}).json()["id"]
+    s1 = client.post("/colegios/", json={"nombre": "S1", "direccion": "D", "ciudad": "C", "telefono": "1", "email": "s1@test.com", "password": "password123"}).json()["id"]
+    s2 = client.post("/colegios/", json={"nombre": "S2", "direccion": "D", "ciudad": "C", "telefono": "2", "email": "s2@test.com", "password": "password123"}).json()["id"]
     
     # Add residue to s1
     client.post(f"/colegios/{s1}/residuos", json={"tipo": "plastico", "peso_kg": 1, "volumen_litros": 2, "aula": "A1"})
@@ -70,7 +70,7 @@ def test_list_residues_by_school(client):
     assert len(resp2.json()) == 0
 
 def test_filter_residues_by_tipo(client):
-    s1 = client.post("/colegios/", json={"nombre": "S1", "direccion": "D", "ciudad": "C", "telefono": "1"}).json()["id"]
+    s1 = client.post("/colegios/", json={"nombre": "S1", "direccion": "D", "ciudad": "C", "telefono": "1", "email": "s1@test.com", "password": "password123"}).json()["id"]
     client.post(f"/colegios/{s1}/residuos", json={"tipo": "plastico", "peso_kg": 1, "volumen_litros": 2, "aula": "A1"})
     client.post(f"/colegios/{s1}/residuos", json={"tipo": "papel", "peso_kg": 2, "volumen_litros": 4, "aula": "A2"})
     
